@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <OutputPath>$(ALTV_SERVER_RESOURCES)/AbsurdGamemode</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AltV.Net" Version="16.0.10" />
+    <PackageReference Include="AltV.Net.Async" Version="16.0.10" />
+    <PackageReference Include="AltV.Net.EntitySync" Version="1.18.0" />
+    <PackageReference Include="AltV.Net.Resources.Chat.Api" Version="16.0.10" />
+    <PackageReference Include="AltV.Net.Shared" Version="16.0.10" />
+  </ItemGroup>
+
+  <!-- Custom Target to create resource.toml after build -->
+  <Target Name="CreateResourceToml" AfterTargets="Build">
+    <ItemGroup>
+      <ResourceTomlContent Include="type = 'csharp'" />
+      <ResourceTomlContent Include="main = 'AbsurdGamemode.dll'" />
+    </ItemGroup>
+    <WriteLinesToFile
+      File="$(OutputPath)resource.toml"
+      Lines="@(ResourceTomlContent)"
+      Overwrite="true"
+      Encoding="UTF-8" />
+  </Target>
+
+</Project>
